@@ -342,14 +342,17 @@ namespace kursov {
 			if (language_now == 0)
 			{
 				Console::WriteLine("Ошибка при записи данных или при их проверке");
+				//вывод ошибки
 			}
 			else if (language_now == 1)
 			{
 				Console::WriteLine("Error writing or validating data");
+				//вывод ошибки
 			}
 			else if (language_now == 2)
 			{
 				Console::WriteLine("Памылка пры запісе або праверцы дадзеных");
+				//вывод ошибки
 			}
 		}
 	}
