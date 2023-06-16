@@ -1,6 +1,4 @@
 #pragma once
-#include <vector>
-#include <queue>
 
 namespace kursov {
 
@@ -18,13 +16,27 @@ namespace kursov {
 	public ref class MainWindow : public System::Windows::Forms::Form
 	{
 	public:
-		MainWindow(void)
+		int language_now;
+		MainWindow(int language)
 		{
 			InitializeComponent();
 			//
 			//TODO: добавьте код конструктора
 			//
 			this->Text = "Основное окно";
+			this->language_now = language;
+			if (language == 0)
+			{
+				this->русскийToolStripMenuItem->PerformClick();
+			}
+			else if (language == 1)
+			{
+				this->англToolStripMenuItem->PerformClick();
+			}
+			else if (language == 2)
+			{
+				this->белорсукийToolStripMenuItem->PerformClick();
+			}
 		}
 
 	protected:
@@ -61,7 +73,7 @@ namespace kursov {
 	private: System::Windows::Forms::ToolStripMenuItem^ англToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ белорсукийToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ русскийToolStripMenuItem;
-	private: System::Windows::Forms::Label^ label1;
+
 	private: System::Windows::Forms::Button^ button1;
 	private: System::Windows::Forms::TextBox^ textBox1;
 	private: System::Windows::Forms::TextBox^ textBox3;
@@ -74,6 +86,11 @@ namespace kursov {
 	private: System::Windows::Forms::Label^ label7;
 	private: System::Windows::Forms::Label^ label8;
 	private: System::Windows::Forms::Label^ label9;
+	private: System::Windows::Forms::Panel^ panel1;
+	private: System::Windows::Forms::TextBox^ textBox5;
+	private: System::Windows::Forms::Label^ label10;
+	private: System::Windows::Forms::Label^ label11;
+	private: System::Windows::Forms::TextBox^ textBox6;
 
 	private:
 		/// <summary>
@@ -104,7 +121,6 @@ namespace kursov {
 			this->англToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->белорсукийToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->русскийToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
@@ -117,6 +133,11 @@ namespace kursov {
 			this->label7 = (gcnew System::Windows::Forms::Label());
 			this->label8 = (gcnew System::Windows::Forms::Label());
 			this->label9 = (gcnew System::Windows::Forms::Label());
+			this->panel1 = (gcnew System::Windows::Forms::Panel());
+			this->textBox5 = (gcnew System::Windows::Forms::TextBox());
+			this->label10 = (gcnew System::Windows::Forms::Label());
+			this->label11 = (gcnew System::Windows::Forms::Label());
+			this->textBox6 = (gcnew System::Windows::Forms::TextBox());
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -127,7 +148,6 @@ namespace kursov {
 			this->textBox2_1->Name = L"textBox2_1";
 			this->textBox2_1->Size = System::Drawing::Size(363, 22);
 			this->textBox2_1->TabIndex = 4;
-			this->textBox2_1->Click += gcnew System::EventHandler(this, &MainWindow::textbox2_1);
 			// 
 			// textBox1_1
 			// 
@@ -136,7 +156,6 @@ namespace kursov {
 			this->textBox1_1->Name = L"textBox1_1";
 			this->textBox1_1->Size = System::Drawing::Size(363, 22);
 			this->textBox1_1->TabIndex = 3;
-			this->textBox1_1->Click += gcnew System::EventHandler(this, &MainWindow::textbox1_1);
 			// 
 			// textBox_distance
 			// 
@@ -145,12 +164,11 @@ namespace kursov {
 			this->textBox_distance->Name = L"textBox_distance";
 			this->textBox_distance->Size = System::Drawing::Size(363, 22);
 			this->textBox_distance->TabIndex = 7;
-			this->textBox_distance->Click += gcnew System::EventHandler(this, &MainWindow::textbox_dist);
 			// 
 			// label2
 			// 
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(239, 109);
+			this->label2->Location = System::Drawing::Point(315, 109);
 			this->label2->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(304, 16);
@@ -248,7 +266,7 @@ namespace kursov {
 			this->белорсукийToolStripMenuItem->Name = L"белорсукийToolStripMenuItem";
 			this->белорсукийToolStripMenuItem->Size = System::Drawing::Size(181, 26);
 			this->белорсукийToolStripMenuItem->Text = L"Белорссукий";
-			this->белорсукийToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::белорсукийToolStripMenuItem_Click);
+			this->белорсукийToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::белорссукийToolStripMenuItem_Click);
 			// 
 			// русскийToolStripMenuItem
 			// 
@@ -257,23 +275,14 @@ namespace kursov {
 			this->русскийToolStripMenuItem->Text = L"Русский";
 			this->русскийToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::русскийToolStripMenuItem_Click);
 			// 
-			// label1
-			// 
-			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(239, 37);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(446, 16);
-			this->label1->TabIndex = 17;
-			this->label1->Text = L"Введённые координаты это целые числа в диапазоне от 0 до 10000";
-			// 
 			// button1
 			// 
 			this->button1->Location = System::Drawing::Point(707, 277);
 			this->button1->Margin = System::Windows::Forms::Padding(4);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(148, 28);
+			this->button1->Size = System::Drawing::Size(193, 28);
 			this->button1->TabIndex = 18;
-			this->button1->Text = L"закончить ввод";
+			this->button1->Text = L"Найти краткий путь";
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &MainWindow::button1_Click);
 			// 
@@ -313,23 +322,23 @@ namespace kursov {
 			// label3
 			// 
 			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(133, 150);
+			this->label3->Location = System::Drawing::Point(103, 150);
 			this->label3->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(77, 16);
+			this->label3->Size = System::Drawing::Size(136, 16);
 			this->label3->TabIndex = 23;
-			this->label3->Text = L"Введите X:";
-			this->label3->Click += gcnew System::EventHandler(this, &MainWindow::label3_Click);
+			this->label3->Text = L"Введите вершину 1:";
 			// 
 			// label4
 			// 
 			this->label4->AutoSize = true;
-			this->label4->Location = System::Drawing::Point(133, 203);
+			this->label4->Location = System::Drawing::Point(99, 200);
 			this->label4->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(78, 16);
+			this->label4->Size = System::Drawing::Size(136, 16);
 			this->label4->TabIndex = 24;
-			this->label4->Text = L"Введите Y:";
+			this->label4->Text = L"Введите вершину 2:";
+			//this->label4->Click += gcnew System::EventHandler(this, &MainWindow::label4_Click);
 			// 
 			// label5
 			// 
@@ -344,7 +353,7 @@ namespace kursov {
 			// label6
 			// 
 			this->label6->AutoSize = true;
-			this->label6->Location = System::Drawing::Point(103, 379);
+			this->label6->Location = System::Drawing::Point(82, 379);
 			this->label6->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label6->Name = L"label6";
 			this->label6->Size = System::Drawing::Size(132, 16);
@@ -381,11 +390,58 @@ namespace kursov {
 			this->label9->TabIndex = 29;
 			this->label9->Text = L"результат:";
 			// 
+			// panel1
+			// 
+			this->panel1->Location = System::Drawing::Point(0, 474);
+			this->panel1->Name = L"panel1";
+			this->panel1->Size = System::Drawing::Size(1365, 463);
+			this->panel1->TabIndex = 30;
+			this->panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainWindow::panel1_Paint);
+			// 
+			// textBox5
+			// 
+			this->textBox5->Location = System::Drawing::Point(979, 65);
+			this->textBox5->Margin = System::Windows::Forms::Padding(4);
+			this->textBox5->Name = L"textBox5";
+			this->textBox5->Size = System::Drawing::Size(363, 22);
+			this->textBox5->TabIndex = 31;
+			// 
+			// label10
+			// 
+			this->label10->AutoSize = true;
+			this->label10->Location = System::Drawing::Point(772, 68);
+			this->label10->Name = L"label10";
+			this->label10->Size = System::Drawing::Size(189, 16);
+			this->label10->TabIndex = 32;
+			this->label10->Text = L"время затраченное на путь";
+			// 
+			// label11
+			// 
+			this->label11->AutoSize = true;
+			this->label11->Location = System::Drawing::Point(877, 112);
+			this->label11->Name = L"label11";
+			this->label11->Size = System::Drawing::Size(84, 16);
+			this->label11->TabIndex = 34;
+			this->label11->Text = L"Расстояние";
+			// 
+			// textBox6
+			// 
+			this->textBox6->Location = System::Drawing::Point(980, 109);
+			this->textBox6->Margin = System::Windows::Forms::Padding(4);
+			this->textBox6->Name = L"textBox6";
+			this->textBox6->Size = System::Drawing::Size(363, 22);
+			this->textBox6->TabIndex = 33;
+			// 
 			// MainWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1390, 453);
+			this->ClientSize = System::Drawing::Size(1390, 949);
+			this->Controls->Add(this->label11);
+			this->Controls->Add(this->textBox6);
+			this->Controls->Add(this->label10);
+			this->Controls->Add(this->textBox5);
+			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->label9);
 			this->Controls->Add(this->label8);
 			this->Controls->Add(this->label7);
@@ -398,7 +454,6 @@ namespace kursov {
 			this->Controls->Add(this->textBox2);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->button1);
-			this->Controls->Add(this->label1);
 			this->Controls->Add(this->menuStrip1);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->label2);
@@ -414,9 +469,53 @@ namespace kursov {
 			this->PerformLayout();
 
 		}
+
+		void DrawGraph(Graphics^ g, int** graph, int size)
+		{
+			// Определите параметры отображения графа, такие как размер узлов и цвета
+			int nodeSize = 30;
+			Color nodeColor = Color::Blue;
+			Color edgeColor = Color::Black;
+			Pen^ pen = gcnew Pen(edgeColor);
+			SolidBrush^ brush = gcnew SolidBrush(nodeColor);
+
+			// Вычислите расстояние между узлами
+			int distance = 300 / (size - 1); // Предполагаем, что граф должен поместиться в прямоугольник 300x300
+
+			// Отобразите узлы графа
+			for (int i = 0; i < size; i++)
+			{
+				int x = 50 + i * distance;  // Вычислите координаты узла
+				int y = 150;  // Фиксированная координата узла по оси Y
+				g->FillEllipse(brush, x - nodeSize / 2, y - nodeSize / 2, nodeSize, nodeSize);  // Нарисуйте узел
+				g->DrawString((i + 1).ToString(), gcnew System::Drawing::Font("Arial", 12), Brushes::Black, x - 10, y - 10);
+			}
+
+			// Отобразите связи между узлами
+			for (int i = 0; i < size; i++)
+			{
+				for (int j = 0; j < size; j++)
+				{
+					if (graph[i][j] > 0)
+					{
+						int x1 = 50 + i * distance;  // Вычислите координаты начального узла связи
+						int y1 = 150;  // Фиксированная координата начального узла по оси Y
+						int x2 = 50 + j * distance;  // Вычислите координаты конечного узла связи
+						int y2 = 250;  // Фиксированная координата конечного узла по оси Y
+						g->DrawLine(pen, x1, y1, x2, y2);  // Нарисуйте связь
+						g->DrawString((i + 1).ToString(), gcnew System::Drawing::Font("Arial", 12), Brushes::Black, x1 - 10, y1 - 10);
+						g->DrawString((j + 1).ToString(), gcnew System::Drawing::Font("Arial", 12), Brushes::Black, x2 - 10, y2 - 10);
+					}
+				}
+			}
+		}
+
 		void dijkstra(int** a, int SIZE, int begin_index, int end_index)
 		{
 			this->textBox4->Clear();
+			this->textBox5->Clear();
+			this->textBox6->Clear();
+			const float speed = 1.5;
 			int* d = new int[SIZE];
 			int* v = new int[SIZE];
 			int temp, minindex, min;
@@ -453,6 +552,12 @@ namespace kursov {
 			ver[0] = end_index;
 			int k = 1;
 			int weight = d[end_index];
+			this->textBox6->Text = Convert::ToString(weight) + " m.";
+			int timeInSeconds = static_cast<int>(weight / speed);
+			int hours = timeInSeconds / 3600;
+			int minutes = (timeInSeconds % 3600) / 60;
+			int seconds = timeInSeconds % 60;
+			this->textBox5->Text = hours.ToString() + " час : " + minutes.ToString() + " мин : " + seconds.ToString() + " с";
 
 			while (end_index != begin_index) {
 				for (int i = 0; i < SIZE; i++) {
@@ -471,7 +576,6 @@ namespace kursov {
 			for (int i = k - 1; i >= 0; i--) {
 				this->textBox4->Text += Convert::ToString(" " + (ver[i] + 1));
 			}
-
 			delete[] d;
 			delete[] v;
 			delete[] ver;
@@ -479,18 +583,8 @@ namespace kursov {
 
 
 
-
 #pragma endregion
-	//String^ filename ="C:\\program_lenguage\\file_with_Coordinates.txt";
 	String^ filename = "file_with_Coordinates.txt";
-	bool flag_for_textbox1 = false;
-	bool flag_for_textbox2 = false;
-	bool flag_for_textbox3 = false;
-	bool flag_for_textbox4 = false;
-	short int language_now = 0;//0-рус, 1-англ, 2-бел
-	//const int size_array = 1000;//Проблема с файлами при изменении размера
-
-	
 	
 	private: System::Void бирюзовыйToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
 	{
@@ -512,16 +606,18 @@ namespace kursov {
 	{
 		this->Text = "Основное окно";
 		language_now = 0;
-		this->label1->Text = "Добавить здание в файл";
 		this->label2->Text = "Добавить расстояние между двумя зданиями";
+		this->label3->Text = "Введите вершину 1:";
+		this->label4->Text = "Введите вершину 2:";
+		this->label5->Text = "Введите расстояния между домами:";
+		this->label6->Text = "Количество домов:";
+		this->label7->Text = "от:";
+		this->label8->Text = "до:";
+		this->label9->Text = "результат:";
+		this->label10->Text = "время затраченное на путь";
+		this->label11->Text = "Расстояние";
+		this->button1->Text = "Найти краткий путь";
 		this->button2->Text = "Ввод";
-		this->textBox1_1->Text = "Введите X1:";
-		this->textBox2_1->Text = "Введите Y1:";
-		this->textBox_distance->Text = "Введите расстояния между домами:";
-		flag_for_textbox1 = false;
-		flag_for_textbox2 = false;
-		flag_for_textbox3 = false;
-		flag_for_textbox4 = false;
 		this->бирюзовыйToolStripMenuItem->Text = "Бирюзовый";
 		this->красныйToolStripMenuItem->Text = "Красный";
 		this->жёлтыйToolStripMenuItem->Text = "Жёлтый";
@@ -529,22 +625,27 @@ namespace kursov {
 		this->цветОкнаToolStripMenuItem->Text = "Цвет окна";
 		this->языкToolStripMenuItem->Text = "Язык";
 		this->настройкиToolStripMenuItem->Text = "Настройки";
+		this->англToolStripMenuItem->Text = "Английский";
+		this->белорсукийToolStripMenuItem->Text = "Белорсукий";
+		this->русскийToolStripMenuItem->Text = "Русский";
 	}
 
 	private: System::Void англToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		this->Text = "Main window";
 		language_now = 1;
-		this->label1->Text = "Add building to file";
 		this->label2->Text = "Add distance between two buildings";
+		this->label3->Text = "Enter vertex 1:";
+		this->label4->Text = "Enter vertex 2:";
+		this->label5->Text = "Enter distances between houses:";
+		this->label6->Text = "Number of houses:";
+		this->label7->Text = "from:";
+		this->label8->Text = "to:";
+		this->label9->Text = "result:";
+		this->label10->Text = "time spent on the path";
+		this->label11->Text = "Distance";
+		this->button1->Text = "Find shortest path";
 		this->button2->Text = "Input";
-		this->textBox1_1->Text = "Enter X1:";
-		this->textBox2_1->Text = "Enter Y1:";
-		this->textBox_distance->Text = "Enter distance between houses:";
-		flag_for_textbox1 = false;
-		flag_for_textbox2 = false;
-		flag_for_textbox3 = false;
-		flag_for_textbox4 = false;
 		this->бирюзовыйToolStripMenuItem->Text = "Turquoise";
 		this->красныйToolStripMenuItem->Text = "Red";
 		this->жёлтыйToolStripMenuItem->Text = "Yellow";
@@ -552,117 +653,41 @@ namespace kursov {
 		this->цветОкнаToolStripMenuItem->Text = "Window color";
 		this->языкToolStripMenuItem->Text = "Language";
 		this->настройкиToolStripMenuItem->Text = "Settings";
+		this->англToolStripMenuItem->Text = "English";
+		this->белорсукийToolStripMenuItem->Text = "Belarusian";
+		this->русскийToolStripMenuItem->Text = "Russian";
+
 	}
-	private: System::Void белорсукийToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
+
+	private: System::Void белорссукийToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		this->Text = "Асноўнае акно";
 		language_now = 2;
-		this->label1->Text = "Дадаць будынак у файл";
 		this->label2->Text = "Дадаць адлегласць паміж двума будынкамі";
+		this->label3->Text = "Увядзіце вершыню 1:";
+		this->label4->Text = "Увядзіце вершыню 2:";
+		this->label5->Text = "Увядзіце адлегласць паміж домамі:";
+		this->label6->Text = "Колькасць домаў:";
+		this->label7->Text = "ад:";
+		this->label8->Text = "да:";
+		this->label9->Text = "вынік:";
+		this->label10->Text = "час, затрачаны на шлях";
+		this->label11->Text = "Адлегласць";
+		this->button1->Text = "Знайсці кароткі шлях";
 		this->button2->Text = "Увод";
-		this->textBox1_1->Text = "Увядзіце X1:";
-		this->textBox2_1->Text = "Увядзіце Y1:";
-		this->textBox_distance->Text = "Увядзіце адлегласць паміж домамі:";
-		flag_for_textbox1 = false;
-		flag_for_textbox2 = false;
-		flag_for_textbox3 = false;
-		flag_for_textbox4 = false;
 		this->бирюзовыйToolStripMenuItem->Text = "Бірюзавы";
 		this->красныйToolStripMenuItem->Text = "Чырвоны";
 		this->жёлтыйToolStripMenuItem->Text = "Жоўты";
 		this->белыйToolStripMenuItem->Text = "Белы";
-		this->цветОкнаToolStripMenuItem->Text = "Колір акна";
+		this->цветОкнаToolStripMenuItem->Text = "Колер акна";
 		this->языкToolStripMenuItem->Text = "Мова";
-		this->настройкиToolStripMenuItem->Text = "Настройкі";
+		this->настройкиToolStripMenuItem->Text = "Налады";
+		this->англToolStripMenuItem->Text = "Англійская";
+		this->белорсукийToolStripMenuItem->Text = "Беларуская";
+		this->русскийToolStripMenuItem->Text = "Руская";
+
 	}
-	private: System::Void textbox1_1(System::Object^ sender, System::EventArgs^ e) 
-	{
-		//очистка текстбоксов при их нажатии
-		try
-		{
-			if (flag_for_textbox2 == false)
-			{
-				textBox1_1->Clear();
-				textBox2_1->Clear();
-				flag_for_textbox2 = true;
-			}
-			
-		}
-		catch (...)
-		{
-			if (language_now == 0)
-			{
-				MessageBox::Show("Ошибка при очистке textbox");
-			}
-			else if (language_now == 1)
-			{
-				MessageBox::Show("Error clearing textbox");
-			}
-			else if (language_now == 2)
-			{
-				MessageBox::Show("Ошибка при очистке textbox");
-			}
-			
-		}
-	}
-	private: System::Void textbox2_1(System::Object^ sender, System::EventArgs^ e) 
-	{
-		//очистка текстбоксов при их нажатии
-		try
-		{
-			if (flag_for_textbox2 == false)
-			{
-				textBox1_1->Clear();
-				textBox2_1->Clear();
-				flag_for_textbox2 = true;
-			}
-			
-		}
-		catch (...)
-		{
-			if (language_now == 0)
-			{
-				MessageBox::Show("Ошибка при очистке textbox");
-			}
-			else if (language_now == 1)
-			{
-				MessageBox::Show("Error clearing textbox");
-			}
-			else if (language_now == 2)
-			{
-				MessageBox::Show("Ошибка при очистке textbox");
-			}
-		}
-	}
-	
-	private: System::Void textbox_dist(System::Object^ sender, System::EventArgs^ e) 
-	{
-		//очистка текстбоксов при их нажатии
-		try
-		{
-			if (flag_for_textbox4 == false)
-			{
-				textBox_distance->Clear();
-				flag_for_textbox4 = true;
-			}
-		}
-		catch (...)
-		{
-			if (language_now == 0)
-			{
-				MessageBox::Show("Ошибка при очистке textbox");
-			}
-			else if (language_now == 1)
-			{
-				MessageBox::Show("Error clearing textbox");
-			}
-			else if (language_now == 2)
-			{
-				MessageBox::Show("Ошибка при очистке textbox");
-			}
-		}
-	}
-		   ////////////////////////////////
+
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		try
@@ -778,10 +803,11 @@ namespace kursov {
 			}
 
 			// Обновление массива с новыми значениями из текстовых полей
-			String^ textwindowX1_1 = this->textBox1_1->Text;
-			String^ textwindowY2_1 = this->textBox2_1->Text;
-			String^ textwindow_distance = this->textBox_distance->Text;
-			dynamicArray_for_work[Convert::ToInt32(textwindowX1_1) - 1][Convert::ToInt32(textwindowY2_1) - 1] = Convert::ToInt32(textwindow_distance);
+			String^ graphFromTo = this->textBox1_1->Text;
+			String^ graphSourceTarget = this->textBox2_1->Text;
+			String^ distance = this->textBox_distance->Text;
+			dynamicArray_for_work[Convert::ToInt32(graphFromTo) - 1][Convert::ToInt32(graphSourceTarget) - 1] = Convert::ToInt32(distance);
+			dynamicArray_for_work[Convert::ToInt32(graphSourceTarget) - 1][Convert::ToInt32(graphFromTo) - 1] = Convert::ToInt32(distance);
 
 			// Запись массива обратно в файл
 			StreamWriter^ sw = gcnew StreamWriter(filename);
@@ -801,7 +827,10 @@ namespace kursov {
 				sw->WriteLine();
 			}
 			sw->Close();
-
+			Panel^ graphPanel = this->panel1; // Замените "panel1" на имя вашей панели
+			Graphics^ g = graphPanel->CreateGraphics();
+			g->Clear(Color::White);  // Очистка области рисования перед отрисовкой
+			DrawGraph(g, dynamicArray_for_work, size_array);
 			for (int i = 0; i < size_array; i++)
 			{
 				delete[] dynamicArray_for_work[i];
@@ -814,45 +843,26 @@ namespace kursov {
 			}
 			delete[] dynamicArray_for_change;
 		}
-		catch (Exception^ e)
+		catch (...)
 		{
-			MessageBox::Show(e->Message);
+			// Обработка ошибок при вводе в текстовое поле
+			if (language_now == 0)
+			{
+				MessageBox::Show("Ошибка при вводе в текстовое поле");
+			}
+			else if (language_now == 1)
+			{
+				MessageBox::Show("Error when entering into textbox");
+			}
+			else if (language_now == 2)
+			{
+				MessageBox::Show("Памылка пры ўводзе ў тэкставае поле");
+			}
 		}
-
-
-
-
-		//catch (...)
-		//{
-		//	// Обработка ошибок при вводе в текстовое поле
-		//	if (language_now == 0)
-		//	{
-		//		MessageBox::Show("Ошибка при вводе в текстовое поле");
-		//		textBox1_1->Text = "Введите X1:";
-		//		textBox2_1->Text = "Введите Y1:";
-		//		textBox_distance->Text = "Введите расстояние между домами:";
-		//	}
-		//	else if (language_now == 1)
-		//	{
-		//		MessageBox::Show("Error when entering into textbox");
-		//		textBox1_1->Text = "Enter X1:";
-		//		textBox2_1->Text = "Enter Y1:";
-		//		textBox_distance->Text = "Enter distance between houses:";
-		//	}
-		//	else if (language_now == 2)
-		//	{
-		//		MessageBox::Show("Памылка пры ўводзе ў тэкставае поле");
-		//		textBox1_1->Text = "Увядзіце X1:";
-		//		textBox2_1->Text = "Увядзіце Y1:";
-		//		textBox_distance->Text = "Увядзіце адлегласць паміж домамі:";
-		//	}
-		//	flag_for_textbox1 = false;
-		//}
 	}
 
-	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) 
+	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-
 		StreamReader^ reader1 = gcnew StreamReader(filename);
 		String^ line;
 		int size_array;
@@ -871,13 +881,12 @@ namespace kursov {
 		}
 
 		StreamReader^ reader2 = gcnew StreamReader(filename);
-		//String^ line;
 		int row = 0;
 		while ((line = reader2->ReadLine()) != nullptr)
 		{
 			array<String^>^ tokens = line->Split(' ');
 
-			for (int col = 0; col < tokens->Length - 1; col++)  // Изменено условие цикла
+			for (int col = 0; col < tokens->Length - 1; col++)
 			{
 				int value;
 				String^ token = tokens[col];
@@ -887,15 +896,16 @@ namespace kursov {
 					if (row < size_array && col < size_array)
 					{
 						dynamicArray[row][col] = value;
+						dynamicArray[col][row] = value;  // Запись значения в обратном направлении
 					}
 				}
 				else
 				{
 					dynamicArray[row][col] = 0;
+					dynamicArray[col][row] = 0;  // Запись значения в обратном направлении
 				}
 			}
 			row++;
-			//MessageBox::Show(Convert::ToString(tokens[row]));
 			if (row == size_array)
 			{
 				break;
@@ -915,9 +925,87 @@ namespace kursov {
 		}
 		delete[] dynamicArray;
 	}
-private: System::Void label3_Click(System::Object^ sender, System::EventArgs^ e) {
-}
+	private: System::Void panel1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e)
+	{
+		int size_array = 0;
+
+		bool sizeChanged = false;
+		int oldSizeArray = 0;
+
+		StreamReader^ reader = gcnew StreamReader(filename);
+		String^ line;
+		if ((line = reader->ReadLine()) != nullptr)
+		{
+			array<String^>^ tokens = line->Split(' ');
+			oldSizeArray = tokens->Length;
+			oldSizeArray--;
+			if (size_array != oldSizeArray)
+			{
+				sizeChanged = true;
+				size_array = oldSizeArray;  // Добавлено присвоение значения переменной size_array
+			}
+		}
+		reader->Close();
+
+		// Создание нового массива
+		int** dynamicArray_for_work = new int* [size_array];
+		for (int i = 0; i < size_array; i++)
+		{
+			dynamicArray_for_work[i] = new int[size_array];
+		}
+
+		int** dynamicArray_for_change = new int* [size_array];
+		for (int i = 0; i < size_array; i++)
+		{
+			dynamicArray_for_change[i] = new int[size_array];
+		}
+
+		// Чтение данных из файла
+		reader = gcnew StreamReader(filename);  // Переиспользуем переменную reader
+		int row = 0;
+		while ((line = reader->ReadLine()) != nullptr)
+		{
+			array<String^>^ tokens = line->Split(' ');
+
+			for (int col = 0; col < tokens->Length - 1; col++)  // Изменено условие цикла
+			{
+				int value;
+				String^ token = tokens[col];
+				value = Convert::ToInt32(token);
+				if (value >= 0)
+				{
+					if (row < size_array && col < size_array)
+					{
+						dynamicArray_for_work[row][col] = value;
+						dynamicArray_for_change[row][col] = value;
+					}
+				}
+				else
+				{
+					dynamicArray_for_work[row][col] = 0;
+					dynamicArray_for_change[row][col] = 0;
+				}
+			}
+			row++;
+			if (row == size_array)
+			{
+				break;
+			}
+		}
+		reader->Close();
+
+		DrawGraph(e->Graphics, dynamicArray_for_work, size_array);
+
+		// Освобождение памяти
+		for (int i = 0; i < size_array; i++)
+		{
+			delete[] dynamicArray_for_work[i];
+			delete[] dynamicArray_for_change[i];
+		}
+		delete[] dynamicArray_for_work;
+		delete[] dynamicArray_for_change;
+	}
+
+
 };
 }
-
-

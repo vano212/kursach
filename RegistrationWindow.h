@@ -1,6 +1,7 @@
 #pragma once
 #include "CreateAccountWindow.h"
 #include "MainWindow.h"
+//int language_now = 0;//0-рус, 1-англ, 2-бел
 
 namespace kursov {
 
@@ -26,6 +27,7 @@ namespace kursov {
 			//TODO: добавьте код конструктора
 			//
 			this->Text = "Вход в аккаунт";
+			int language_now = 0;
 		}
 
 	protected:
@@ -221,7 +223,7 @@ namespace kursov {
 			this->белорсукийToolStripMenuItem->Name = L"белорсукийToolStripMenuItem";
 			this->белорсукийToolStripMenuItem->Size = System::Drawing::Size(180, 22);
 			this->белорсукийToolStripMenuItem->Text = L"Белорссукий";
-			this->белорсукийToolStripMenuItem->Click += gcnew System::EventHandler(this, &RegistrationWindow::белорсукийToolStripMenuItem_Click);
+			this->белорсукийToolStripMenuItem->Click += gcnew System::EventHandler(this, &RegistrationWindow::белоруccкийToolStripMenuItem_Click);
 			// 
 			// русскийToolStripMenuItem
 			// 
@@ -255,11 +257,11 @@ namespace kursov {
 	//String^ filename ="C:\\program_lenguage\\file_with_account.txt";
 	String^ filename = "file_with_account.txt";
 	bool flag_for_textbox = false;
-	short int language_now = 0;//0-рус, 1-англ, 2-бел
+	int language_now = 0;//0-рус, 1-англ, 2-бел
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) 
 	{
 		//регистрация нового аккаунта(открывает новое окно)
-		CreateAccountWindow^ createwindow = gcnew CreateAccountWindow;
+		CreateAccountWindow^ createwindow = gcnew CreateAccountWindow(language_now);
 		createwindow->Show();
 		
 	}	
@@ -332,7 +334,7 @@ namespace kursov {
 				{
 					this->label1->Text = "Уваход выкананы";
 				}
-				MainWindow^ mainwindow = gcnew MainWindow;
+				MainWindow^ mainwindow = gcnew MainWindow(language_now);
 				mainwindow->Show();
 				this->Hide();
 			}
@@ -445,8 +447,11 @@ namespace kursov {
 		this->цветОкнаToolStripMenuItem->Text = "Window color";
 		this->языкToolStripMenuItem->Text = "Language";
 		this->настройкиToolStripMenuItem->Text = "Settings";
+		this->англToolStripMenuItem->Text = "English";
+		this->белорсукийToolStripMenuItem->Text = "Belarusian";
+		this->русскийToolStripMenuItem->Text = "Russian";
 	}
-	private: System::Void белорсукийToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) 
+	private: System::Void белоруccкийToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) 
 	{
 		language_now = 2;
 		this->Text = "Уваход у акаўнт";
@@ -462,6 +467,9 @@ namespace kursov {
 		this->цветОкнаToolStripMenuItem->Text = "Колір акна";
 		this->языкToolStripMenuItem->Text = "Мова";
 		this->настройкиToolStripMenuItem->Text = "Настройкі";
+		this->англToolStripMenuItem->Text = "Англійская";
+		this->белорсукийToolStripMenuItem->Text = "Беларуская";
+		this->русскийToolStripMenuItem->Text = "Руская";
 	}
 	private: System::Void русскийToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) 
 	{
@@ -479,6 +487,9 @@ namespace kursov {
 		this->цветОкнаToolStripMenuItem->Text = "Цвет окна";
 		this->языкToolStripMenuItem->Text = "Язык";
 		this->настройкиToolStripMenuItem->Text = "Настройки";
+		this->англToolStripMenuItem->Text = "Английский";
+		this->белорсукийToolStripMenuItem->Text = "Белорсукий";
+		this->русскийToolStripMenuItem->Text = "Русский";
 	}
 };
 }

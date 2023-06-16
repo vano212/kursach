@@ -1,6 +1,6 @@
 #pragma once
-#include <fstream>
 #include <string>
+
 namespace kursov {
 
 	
@@ -19,13 +19,27 @@ namespace kursov {
 	public ref class CreateAccountWindow : public System::Windows::Forms::Form
 	{
 	public:
-		CreateAccountWindow(void)
+		int language_now;
+		CreateAccountWindow(int language)
 		{
 			InitializeComponent();
 			//
 			//TODO: äîáàâüòå êîä êîíñòğóêòîğà
 			//
 			this->Text = "Ğåãèñòğàöèÿ àêêàóíòà";
+			this->language_now = language;
+			if (language == 0)
+			{
+				this->ğóññêèéToolStripMenuItem->PerformClick();
+			}
+			else if (language == 1)
+			{
+				this->àíãëToolStripMenuItem->PerformClick();
+			}
+			else if (language == 2)
+			{
+				this->áåëîğñóêèéToolStripMenuItem->PerformClick();
+			}
 		}
 
 	protected:
@@ -90,18 +104,17 @@ namespace kursov {
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(123, 161);
-			this->label1->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
+			this->label1->Location = System::Drawing::Point(164, 198);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(0, 13);
+			this->label1->Size = System::Drawing::Size(0, 16);
 			this->label1->TabIndex = 13;
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(144, 281);
-			this->button1->Margin = System::Windows::Forms::Padding(2);
+			this->button1->Location = System::Drawing::Point(192, 346);
+			this->button1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(103, 43);
+			this->button1->Size = System::Drawing::Size(137, 53);
 			this->button1->TabIndex = 12;
 			this->button1->Text = L"Äàëåå";
 			this->button1->UseVisualStyleBackColor = true;
@@ -109,32 +122,33 @@ namespace kursov {
 			// 
 			// textBox2
 			// 
-			this->textBox2->Location = System::Drawing::Point(123, 121);
-			this->textBox2->Margin = System::Windows::Forms::Padding(2);
+			this->textBox2->Location = System::Drawing::Point(164, 149);
+			this->textBox2->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->textBox2->Multiline = true;
 			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(147, 35);
+			this->textBox2->Size = System::Drawing::Size(195, 42);
 			this->textBox2->TabIndex = 11;
 			this->textBox2->Text = L"Ââåäèòå ïàğîëü";
 			this->textBox2->Click += gcnew System::EventHandler(this, &CreateAccountWindow::Textbox2_clear);
 			// 
 			// textBox1
 			// 
-			this->textBox1->Location = System::Drawing::Point(123, 52);
-			this->textBox1->Margin = System::Windows::Forms::Padding(2);
+			this->textBox1->Location = System::Drawing::Point(164, 64);
+			this->textBox1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->textBox1->Multiline = true;
 			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(147, 35);
+			this->textBox1->Size = System::Drawing::Size(195, 42);
 			this->textBox1->TabIndex = 10;
 			this->textBox1->Text = L"Ââåäèòå èìÿ ïîëüçîâàòåëÿ";
 			this->textBox1->Click += gcnew System::EventHandler(this, &CreateAccountWindow::Textbox1_clear);
 			// 
 			// menuStrip1
 			// 
+			this->menuStrip1->ImageScalingSize = System::Drawing::Size(20, 20);
 			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->íàñòğîéêèToolStripMenuItem });
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(392, 24);
+			this->menuStrip1->Size = System::Drawing::Size(523, 28);
 			this->menuStrip1->TabIndex = 17;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -145,7 +159,7 @@ namespace kursov {
 					this->ÿçûêToolStripMenuItem
 			});
 			this->íàñòğîéêèToolStripMenuItem->Name = L"íàñòğîéêèToolStripMenuItem";
-			this->íàñòğîéêèToolStripMenuItem->Size = System::Drawing::Size(79, 20);
+			this->íàñòğîéêèToolStripMenuItem->Size = System::Drawing::Size(98, 24);
 			this->íàñòğîéêèToolStripMenuItem->Text = L"Íàñòğîéêè";
 			// 
 			// öâåòÎêíàToolStripMenuItem
@@ -155,34 +169,34 @@ namespace kursov {
 					this->êğàñíûéToolStripMenuItem, this->æ¸ëòûéToolStripMenuItem, this->áåëûéToolStripMenuItem
 			});
 			this->öâåòÎêíàToolStripMenuItem->Name = L"öâåòÎêíàToolStripMenuItem";
-			this->öâåòÎêíàToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->öâåòÎêíàToolStripMenuItem->Size = System::Drawing::Size(162, 26);
 			this->öâåòÎêíàToolStripMenuItem->Text = L"Öâåò îêíà";
 			// 
 			// áèğşçîâûéToolStripMenuItem
 			// 
 			this->áèğşçîâûéToolStripMenuItem->Name = L"áèğşçîâûéToolStripMenuItem";
-			this->áèğşçîâûéToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->áèğşçîâûéToolStripMenuItem->Size = System::Drawing::Size(175, 26);
 			this->áèğşçîâûéToolStripMenuItem->Text = L"Áèğşçîâûé";
 			this->áèğşçîâûéToolStripMenuItem->Click += gcnew System::EventHandler(this, &CreateAccountWindow::áèğşçîâûéToolStripMenuItem_Click);
 			// 
 			// êğàñíûéToolStripMenuItem
 			// 
 			this->êğàñíûéToolStripMenuItem->Name = L"êğàñíûéToolStripMenuItem";
-			this->êğàñíûéToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->êğàñíûéToolStripMenuItem->Size = System::Drawing::Size(175, 26);
 			this->êğàñíûéToolStripMenuItem->Text = L"Êğàñíûé";
 			this->êğàñíûéToolStripMenuItem->Click += gcnew System::EventHandler(this, &CreateAccountWindow::êğàñíûéToolStripMenuItem_Click);
 			// 
 			// æ¸ëòûéToolStripMenuItem
 			// 
 			this->æ¸ëòûéToolStripMenuItem->Name = L"æ¸ëòûéToolStripMenuItem";
-			this->æ¸ëòûéToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->æ¸ëòûéToolStripMenuItem->Size = System::Drawing::Size(175, 26);
 			this->æ¸ëòûéToolStripMenuItem->Text = L"Æ¸ëòûé";
 			this->æ¸ëòûéToolStripMenuItem->Click += gcnew System::EventHandler(this, &CreateAccountWindow::æ¸ëòûéToolStripMenuItem_Click);
 			// 
 			// áåëûéToolStripMenuItem
 			// 
 			this->áåëûéToolStripMenuItem->Name = L"áåëûéToolStripMenuItem";
-			this->áåëûéToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->áåëûéToolStripMenuItem->Size = System::Drawing::Size(175, 26);
 			this->áåëûéToolStripMenuItem->Text = L"Áåëûé";
 			this->áåëûéToolStripMenuItem->Click += gcnew System::EventHandler(this, &CreateAccountWindow::áåëûéToolStripMenuItem_Click);
 			// 
@@ -193,41 +207,41 @@ namespace kursov {
 					this->áåëîğñóêèéToolStripMenuItem, this->ğóññêèéToolStripMenuItem
 			});
 			this->ÿçûêToolStripMenuItem->Name = L"ÿçûêToolStripMenuItem";
-			this->ÿçûêToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->ÿçûêToolStripMenuItem->Size = System::Drawing::Size(162, 26);
 			this->ÿçûêToolStripMenuItem->Text = L"ßçûê";
 			// 
 			// àíãëToolStripMenuItem
 			// 
 			this->àíãëToolStripMenuItem->Name = L"àíãëToolStripMenuItem";
-			this->àíãëToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->àíãëToolStripMenuItem->Size = System::Drawing::Size(181, 26);
 			this->àíãëToolStripMenuItem->Text = L"Àíãëèéñêèé";
 			this->àíãëToolStripMenuItem->Click += gcnew System::EventHandler(this, &CreateAccountWindow::àíãëToolStripMenuItem_Click);
 			// 
 			// áåëîğñóêèéToolStripMenuItem
 			// 
 			this->áåëîğñóêèéToolStripMenuItem->Name = L"áåëîğñóêèéToolStripMenuItem";
-			this->áåëîğñóêèéToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->áåëîğñóêèéToolStripMenuItem->Size = System::Drawing::Size(181, 26);
 			this->áåëîğñóêèéToolStripMenuItem->Text = L"Áåëîğññóêèé";
-			this->áåëîğñóêèéToolStripMenuItem->Click += gcnew System::EventHandler(this, &CreateAccountWindow::áåëîğñóêèéToolStripMenuItem_Click);
+			this->áåëîğñóêèéToolStripMenuItem->Click += gcnew System::EventHandler(this, &CreateAccountWindow::áåëîğóccêèéToolStripMenuItem_Click);
 			// 
 			// ğóññêèéToolStripMenuItem
 			// 
 			this->ğóññêèéToolStripMenuItem->Name = L"ğóññêèéToolStripMenuItem";
-			this->ğóññêèéToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->ğóññêèéToolStripMenuItem->Size = System::Drawing::Size(181, 26);
 			this->ğóññêèéToolStripMenuItem->Text = L"Ğóññêèé";
 			this->ğóññêèéToolStripMenuItem->Click += gcnew System::EventHandler(this, &CreateAccountWindow::ğóññêèéToolStripMenuItem_Click);
 			// 
 			// CreateAccountWindow
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(392, 398);
+			this->ClientSize = System::Drawing::Size(523, 490);
 			this->Controls->Add(this->menuStrip1);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->textBox2);
 			this->Controls->Add(this->textBox1);
-			this->Margin = System::Windows::Forms::Padding(2);
+			this->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->Name = L"CreateAccountWindow";
 			this->Text = L"CreateAccountWindow";
 			this->menuStrip1->ResumeLayout(false);
@@ -240,7 +254,6 @@ namespace kursov {
 	//String^ filename ="C:\\program_lenguage\\file_with_account.txt";
 	String^ filename = "file_with_account.txt";
 	bool flag_for_textbox = false;
-	short int language_now = 0;//0-ğóñ, 1-àíãë, 2-áåë
 	private: System::Void Textbox1_clear(System::Object^ sender, System::EventArgs^ e)
 	{
 		//î÷èñòêà òåêñòáîêñîâ ïğè èõ íàæàòèè
@@ -298,6 +311,7 @@ namespace kursov {
 			}
 		}
 	}
+
 	private: System::Void check_and_creat(System::Object^ sender, System::EventArgs^ e)
 	{
 		String^ line;
@@ -426,8 +440,11 @@ namespace kursov {
 		this->öâåòÎêíàToolStripMenuItem->Text = "Window color";
 		this->ÿçûêToolStripMenuItem->Text = "Language";
 		this->íàñòğîéêèToolStripMenuItem->Text = "Settings";
+		this->àíãëToolStripMenuItem->Text = "English";
+		this->áåëîğñóêèéToolStripMenuItem->Text = "Belarusian";
+		this->ğóññêèéToolStripMenuItem->Text = "Russian";
 	}
-	private: System::Void áåëîğñóêèéToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
+	private: System::Void áåëîğóccêèéToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		this->Text = "Ğıã³ñòğàöûÿ ¢ë³êîâàãà çàï³ñó";
 		language_now = 2;
@@ -442,6 +459,9 @@ namespace kursov {
 		this->öâåòÎêíàToolStripMenuItem->Text = "Êîë³ğ àêíà";
 		this->ÿçûêToolStripMenuItem->Text = "Ìîâà";
 		this->íàñòğîéêèToolStripMenuItem->Text = "Íàñòğîéê³";
+		this->àíãëToolStripMenuItem->Text = "Àíãë³éñêàÿ";
+		this->áåëîğñóêèéToolStripMenuItem->Text = "Áåëàğóñêàÿ";
+		this->ğóññêèéToolStripMenuItem->Text = "Ğóñêàÿ";
 	}
 	private: System::Void ğóññêèéToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
 	{
@@ -458,6 +478,9 @@ namespace kursov {
 		this->öâåòÎêíàToolStripMenuItem->Text = "Öâåò îêíà";
 		this->ÿçûêToolStripMenuItem->Text = "ßçûê";
 		this->íàñòğîéêèToolStripMenuItem->Text = "Íàñòğîéêè";
+		this->àíãëToolStripMenuItem->Text = "Àíãëèéñêèé";
+		this->áåëîğñóêèéToolStripMenuItem->Text = "Áåëîğñóêèé";
+		this->ğóññêèéToolStripMenuItem->Text = "Ğóññêèé";
 	}
 
 };
