@@ -479,13 +479,13 @@ namespace kursov {
 			Pen^ pen = gcnew Pen(edgeColor);
 			SolidBrush^ brush = gcnew SolidBrush(nodeColor);
 
-			// Вычислите расстояние между узлами
-			int distance = 300 / (size - 1); // Предполагаем, что граф должен поместиться в прямоугольник 300x300
+			// Вычислите расстояние между узлами, исходя из размера панели рисования
+			int distance = g->VisibleClipBounds.Width / (size + 1);
 
 			// Отобразите узлы графа
 			for (int i = 0; i < size; i++)
 			{
-				int x = 50 + i * distance;  // Вычислите координаты узла
+				int x = (i + 1) * distance;  // Вычислите координаты узла
 				int y = 150;  // Фиксированная координата узла по оси Y
 				g->FillEllipse(brush, x - nodeSize / 2, y - nodeSize / 2, nodeSize, nodeSize);  // Нарисуйте узел
 				g->DrawString((i + 1).ToString(), gcnew System::Drawing::Font("Arial", 12), Brushes::Black, x - 10, y - 10);
@@ -498,9 +498,9 @@ namespace kursov {
 				{
 					if (graph[i][j] > 0)
 					{
-						int x1 = 50 + i * distance;  // Вычислите координаты начального узла связи
+						int x1 = (i + 1) * distance;  // Вычислите координаты начального узла связи
 						int y1 = 150;  // Фиксированная координата начального узла по оси Y
-						int x2 = 50 + j * distance;  // Вычислите координаты конечного узла связи
+						int x2 = (j + 1) * distance;  // Вычислите координаты конечного узла связи
 						int y2 = 250;  // Фиксированная координата конечного узла по оси Y
 						g->DrawLine(pen, x1, y1, x2, y2);  // Нарисуйте связь
 						g->DrawString((i + 1).ToString(), gcnew System::Drawing::Font("Arial", 12), Brushes::Black, x1 - 10, y1 - 10);
@@ -510,32 +510,33 @@ namespace kursov {
 			}
 		}
 
+
 		void dijkstra(int** a, int SIZE, int begin_index, int end_index)
 		{
 			this->textBox4->Clear();
 			this->textBox5->Clear();
 			this->textBox6->Clear();
 			const float speed = 1.5;
-			int* d = new int[SIZE];
-			int* v = new int[SIZE];
-			int temp, minindex, min;
+			long long* d = new long long[SIZE];
+			long long* v = new long long[SIZE];
+			long long temp, minindex, min;
 
 			for (int i = 0; i < SIZE; i++) {
-				d[i] = 10000;
+				d[i] = 9223372036854775807;
 				v[i] = 1;
 			}
 			d[begin_index] = 0;
 
 			do {
-				minindex = 10000;
-				min = 10000;
+				minindex = 9223372036854775807;
+				min = 9223372036854775807;
 				for (int i = 0; i < SIZE; i++) {
 					if ((v[i] == 1) && (d[i] < min)) {
 						min = d[i];
 						minindex = i;
 					}
 				}
-				if (minindex != 10000) {
+				if (minindex != 9223372036854775807) {
 					for (int i = 0; i < SIZE; i++) {
 						if (a[minindex][i] > 0) {
 							temp = min + a[minindex][i];
@@ -546,13 +547,13 @@ namespace kursov {
 					}
 					v[minindex] = 0;
 				}
-			} while (minindex < 10000);
+			} while (minindex < 9223372036854775807);
 
-			int* ver = new int[SIZE];
+			long long* ver = new long long[SIZE];
 			ver[0] = end_index;
 			int k = 1;
 			int weight = d[end_index];
-			this->textBox6->Text = Convert::ToString(weight) + " m.";
+			this->textBox6->Text = Convert::ToString(weight) + " m.    ( " + Convert::ToString(weight/1000.0) + " км. )";
 			int timeInSeconds = static_cast<int>(weight / speed);
 			int hours = timeInSeconds / 3600;
 			int minutes = (timeInSeconds % 3600) / 60;
@@ -692,11 +693,36 @@ namespace kursov {
 	{
 		try
 		{
-			int size_array = Convert::ToInt32(this->textBox1->Text);
-			if (size_array <= 1)
+			int size_array;
+			
+
+			if (this->textBox1->Text == "")
 			{
-				MessageBox::Show("Invalid input! Please enter a positive number.");
-				return;
+				StreamReader^ reader1 = gcnew StreamReader(filename);
+				String^ line;
+				if ((line = reader1->ReadLine()) != nullptr)
+				{
+					array<String^>^ tokens = line->Split(' ');
+					size_array = tokens->Length;
+					size_array--;
+				}
+				reader1->Close();
+			}
+			else
+			{
+				try 
+				{
+					size_array = Convert::ToInt32(this->textBox1->Text);
+					if (size_array <= 1)
+					{
+						MessageBox::Show("Invalid input! Please enter a positive number.");
+						return;
+					}
+				}
+				catch (...)
+				{
+				}
+				
 			}
 
 			bool sizeChanged = false;
@@ -806,6 +832,71 @@ namespace kursov {
 			String^ graphFromTo = this->textBox1_1->Text;
 			String^ graphSourceTarget = this->textBox2_1->Text;
 			String^ distance = this->textBox_distance->Text;
+			
+			if (Convert::ToInt32(graphFromTo) <= 0 || Convert::ToInt32(graphSourceTarget) <= 0)
+			{
+				if (language_now == 0)
+				{
+					MessageBox::Show("Ошибка: Ввод графа осуществляеться с еденицы(1)");///////////////
+				}
+				else if (language_now == 1)
+				{
+					MessageBox::Show("Error: Graph input is performed from one (1)");
+				}
+				else if (language_now == 2)
+				{
+					MessageBox::Show("Памылка: Увод графа здзяйсняецца з адзінкі (1)");
+				}
+				return;
+			}
+			if (Convert::ToInt32(graphFromTo) > size_array || Convert::ToInt32(graphSourceTarget) > size_array)
+			{
+				if (language_now == 0)
+				{
+					MessageBox::Show("Ошибка: Начало или конец графа превышает значение его размерности");///////////////
+				}
+				else if (language_now == 1)
+				{
+					MessageBox::Show("Error: Start or end of the graph exceeds its size");
+				}
+				else if (language_now == 2)
+				{
+					MessageBox::Show("Памылка: Пачатак або канец графа перавышае значэнне яго памеру");
+				}
+				return;
+			}
+			if (graphFromTo == graphSourceTarget)
+			{
+				if (language_now == 0)
+				{
+					MessageBox::Show("Ввод невозможен так как вы уже находитесь в этой точке");
+				}
+				else if (language_now == 1)
+				{
+					MessageBox::Show("Input is not possible as you are already at this point");
+				}
+				else if (language_now == 2)
+				{
+					MessageBox::Show("Увод немагчымы, бо вы ўжо знаходзіцеся ў гэтай кропцы");
+				}
+				return;
+			}
+			if (Convert::ToInt32(distance) <= 0)
+			{
+				if (language_now == 0)
+				{
+					MessageBox::Show("Расстояние между домами не может быть равно 0 или быть отрецательным");
+				}
+				else if (language_now == 1)
+				{
+					MessageBox::Show("Distance between houses cannot be equal to 0 or negative");
+				}
+				else if (language_now == 2)
+				{
+					MessageBox::Show("Адлегласць паміж домамі не можа быць роўнай 0 або адмоўнай");
+				}
+				return;
+			}
 			dynamicArray_for_work[Convert::ToInt32(graphFromTo) - 1][Convert::ToInt32(graphSourceTarget) - 1] = Convert::ToInt32(distance);
 			dynamicArray_for_work[Convert::ToInt32(graphSourceTarget) - 1][Convert::ToInt32(graphFromTo) - 1] = Convert::ToInt32(distance);
 
@@ -863,75 +954,137 @@ namespace kursov {
 
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		StreamReader^ reader1 = gcnew StreamReader(filename);
-		String^ line;
-		int size_array;
-		if ((line = reader1->ReadLine()) != nullptr)
+		try
 		{
-			array<String^>^ tokens = line->Split(' ');
-			size_array = tokens->Length;
-			size_array--;
-		}
-		reader1->Close();
-
-		int** dynamicArray = new int* [size_array];
-		for (int i = 0; i < size_array; i++)
-		{
-			dynamicArray[i] = new int[size_array];
-		}
-
-		StreamReader^ reader2 = gcnew StreamReader(filename);
-		int row = 0;
-		while ((line = reader2->ReadLine()) != nullptr)
-		{
-			array<String^>^ tokens = line->Split(' ');
-
-			for (int col = 0; col < tokens->Length - 1; col++)
+			StreamReader^ reader1 = gcnew StreamReader(filename);
+			String^ line;
+			int size_array;
+			if ((line = reader1->ReadLine()) != nullptr)
 			{
-				int value;
-				String^ token = tokens[col];
-				value = Convert::ToInt32(token);
-				if (value >= 0)
+				array<String^>^ tokens = line->Split(' ');
+				size_array = tokens->Length;
+				size_array--;
+			}
+			reader1->Close();
+
+			int begin_index, end_index;
+			begin_index = Convert::ToInt32(this->textBox2->Text);
+			end_index = Convert::ToInt32(this->textBox3->Text);
+
+			if (begin_index == end_index)
+			{
+				if (language_now == 0)
 				{
-					if (row < size_array && col < size_array)
+					MessageBox::Show("Вы уже находитесь в этой точке");///////////////
+				}
+				else if (language_now == 1)
+				{
+					MessageBox::Show("You are already at this point");
+				}
+				else if (language_now == 2)
+				{
+					MessageBox::Show("Вы ўжо знаходзіцеся ў гэтай кропцы");
+				}
+				this->textBox4->Clear();
+				this->textBox5->Clear();
+				this->textBox6->Clear();
+				return;
+			}
+			if (begin_index <= 0 || end_index <= 0)
+			{
+				if (language_now == 0)
+				{
+					MessageBox::Show("Ошибка: Начало или конец графа не может быть равен 0 или отрецательному числу");///////////////
+				}
+				else if (language_now == 1)
+				{
+					MessageBox::Show("Error: Start or end of the graph cannot be equal to or less than 0");
+				}
+				else if (language_now == 2)
+				{
+					MessageBox::Show("Памылка: Пачатак або канец графа не можа быць роўны 0 або адмоўным лікам");
+				}
+				this->textBox4->Clear();
+				this->textBox5->Clear();
+				this->textBox6->Clear();
+				return;
+			}
+			if (begin_index > size_array || end_index > size_array)
+			{
+				if (language_now == 0)
+				{
+					MessageBox::Show("Ошибка: Начало или конец графа превышает значение его размерности");///////////////
+				}
+				else if (language_now == 1)
+				{
+					MessageBox::Show("Error: Start or end of the graph exceeds its size");
+				}
+				else if (language_now == 2)
+				{
+					MessageBox::Show("Памылка: Пачатак або канец графа перавышае значэнне яго памеру");
+				}
+				this->textBox4->Clear();
+				this->textBox5->Clear();
+				this->textBox6->Clear();
+				return;
+			}
+
+			int** dynamicArray = new int* [size_array];
+			for (int i = 0; i < size_array; i++)
+			{
+				dynamicArray[i] = new int[size_array];
+			}
+
+			StreamReader^ reader2 = gcnew StreamReader(filename);
+			int row = 0;
+			while ((line = reader2->ReadLine()) != nullptr)
+			{
+				array<String^>^ tokens = line->Split(' ');
+
+				for (int col = 0; col < tokens->Length - 1; col++)
+				{
+					int value;
+					String^ token = tokens[col];
+					value = Convert::ToInt32(token);
+					if (value >= 0)
 					{
-						dynamicArray[row][col] = value;
-						dynamicArray[col][row] = value;  // Запись значения в обратном направлении
+						if (row < size_array && col < size_array)
+						{
+							dynamicArray[row][col] = value;
+						}
+					}
+					else
+					{
+						dynamicArray[row][col] = 0;
 					}
 				}
-				else
+				row++;
+				if (row == size_array)
 				{
-					dynamicArray[row][col] = 0;
-					dynamicArray[col][row] = 0;  // Запись значения в обратном направлении
+					break;
 				}
 			}
-			row++;
-			if (row == size_array)
+			reader2->Close();
+
+			dijkstra(dynamicArray, size_array, begin_index - 1, end_index - 1);
+
+			for (int i = 0; i < size_array; i++)
 			{
-				break;
+				delete[] dynamicArray[i];
 			}
+			delete[] dynamicArray;
 		}
-		reader2->Close();
-
-		int begin_index, end_index;
-		begin_index = Convert::ToInt32(this->textBox2->Text);
-		end_index = Convert::ToInt32(this->textBox3->Text);
-
-		dijkstra(dynamicArray, size_array, begin_index-1, end_index-1);
-
-		for (int i = 0; i < size_array; i++)
+		catch (...)
 		{
-			delete[] dynamicArray[i];
+
 		}
-		delete[] dynamicArray;
 	}
+		
 	private: System::Void panel1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e)
 	{
 		int size_array = 0;
-
 		bool sizeChanged = false;
 		int oldSizeArray = 0;
-
 		StreamReader^ reader = gcnew StreamReader(filename);
 		String^ line;
 		if ((line = reader->ReadLine()) != nullptr)
@@ -994,7 +1147,51 @@ namespace kursov {
 		}
 		reader->Close();
 
-		DrawGraph(e->Graphics, dynamicArray_for_work, size_array);
+		Graphics^ g = panel1->CreateGraphics();  // Получите объект Graphics для панели
+
+		// Определите размер панели
+		int panelWidth = panel1->Width;
+		int panelHeight = panel1->Height;
+
+		// Определите параметры отображения графа, такие как размер узлов и цвета
+		int nodeSize = 30;
+		Color nodeColor = Color::Blue;
+		Color edgeColor = Color::Black;
+		Pen^ pen = gcnew Pen(edgeColor);
+		SolidBrush^ brush = gcnew SolidBrush(nodeColor);
+
+		// Вычислите расстояние между узлами, учитывая размер панели
+		int distance = panelWidth / (size_array + 1);
+
+		// Отобразите узлы графа с учетом прокрутки
+		for (int i = 0; i < size_array; i++)
+		{
+			int x = (i + 1) * distance;
+			int y = panelHeight / 2;
+			g->FillEllipse(brush, x - nodeSize / 2, y - nodeSize / 2, nodeSize, nodeSize);
+			g->DrawString((i + 1).ToString(), gcnew System::Drawing::Font("Arial", 12), Brushes::Black, x - 10, y - 10);
+		}
+
+		// Отобразите связи между узлами с учетом прокрутки
+		for (int i = 0; i < size_array; i++)
+		{
+			for (int j = 0; j < size_array; j++)
+			{
+				if (dynamicArray_for_work[i][j] > 0)
+				{
+					int x1 = (i + 1) * distance;
+					int y1 = panelHeight / 2;
+					int x2 = (j + 1) * distance;
+					int y2 = panelHeight / 2 + 100;
+					g->DrawLine(pen, x1, y1, x2, y2);
+					g->DrawString((i + 1).ToString(), gcnew System::Drawing::Font("Arial", 12), Brushes::Black, x1 - 10, y1 - 10);
+					g->DrawString((j + 1).ToString(), gcnew System::Drawing::Font("Arial", 12), Brushes::Black, x2 - 10, y2 - 10);
+				}
+			}
+		}
+
+		// Добавление панели с прокруткой
+		panel1->AutoScroll = true;
 
 		// Освобождение памяти
 		for (int i = 0; i < size_array; i++)
@@ -1005,7 +1202,5 @@ namespace kursov {
 		delete[] dynamicArray_for_work;
 		delete[] dynamicArray_for_change;
 	}
-
-
 };
 }

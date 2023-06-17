@@ -104,7 +104,7 @@ namespace kursov {
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(164, 198);
+			this->label1->Location = System::Drawing::Point(111, 210);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(0, 16);
 			this->label1->TabIndex = 13;
