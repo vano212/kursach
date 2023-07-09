@@ -1,4 +1,6 @@
 #pragma once
+#include <cstdlib>
+#include <string>
 
 namespace kursov {
 
@@ -91,6 +93,8 @@ namespace kursov {
 	private: System::Windows::Forms::Label^ label10;
 	private: System::Windows::Forms::Label^ label11;
 	private: System::Windows::Forms::TextBox^ textBox6;
+	private: System::Windows::Forms::ToolStripMenuItem^ справкаToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^ выходToolStripMenuItem;
 
 	private:
 		/// <summary>
@@ -121,6 +125,7 @@ namespace kursov {
 			this->англToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->белорсукийToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->русскийToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->справкаToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
@@ -138,6 +143,7 @@ namespace kursov {
 			this->label10 = (gcnew System::Windows::Forms::Label());
 			this->label11 = (gcnew System::Windows::Forms::Label());
 			this->textBox6 = (gcnew System::Windows::Forms::TextBox());
+			this->выходToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -189,7 +195,10 @@ namespace kursov {
 			// menuStrip1
 			// 
 			this->menuStrip1->ImageScalingSize = System::Drawing::Size(20, 20);
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->настройкиToolStripMenuItem });
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+				this->настройкиToolStripMenuItem,
+					this->выходToolStripMenuItem
+			});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
 			this->menuStrip1->Size = System::Drawing::Size(1390, 28);
@@ -198,9 +207,9 @@ namespace kursov {
 			// 
 			// настройкиToolStripMenuItem
 			// 
-			this->настройкиToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+			this->настройкиToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
 				this->цветОкнаToolStripMenuItem,
-					this->языкToolStripMenuItem
+					this->языкToolStripMenuItem, this->справкаToolStripMenuItem
 			});
 			this->настройкиToolStripMenuItem->Name = L"настройкиToolStripMenuItem";
 			this->настройкиToolStripMenuItem->Size = System::Drawing::Size(98, 24);
@@ -213,7 +222,7 @@ namespace kursov {
 					this->красныйToolStripMenuItem, this->жёлтыйToolStripMenuItem, this->белыйToolStripMenuItem
 			});
 			this->цветОкнаToolStripMenuItem->Name = L"цветОкнаToolStripMenuItem";
-			this->цветОкнаToolStripMenuItem->Size = System::Drawing::Size(162, 26);
+			this->цветОкнаToolStripMenuItem->Size = System::Drawing::Size(224, 26);
 			this->цветОкнаToolStripMenuItem->Text = L"Цвет окна";
 			// 
 			// бирюзовыйToolStripMenuItem
@@ -251,7 +260,7 @@ namespace kursov {
 					this->белорсукийToolStripMenuItem, this->русскийToolStripMenuItem
 			});
 			this->языкToolStripMenuItem->Name = L"языкToolStripMenuItem";
-			this->языкToolStripMenuItem->Size = System::Drawing::Size(162, 26);
+			this->языкToolStripMenuItem->Size = System::Drawing::Size(224, 26);
 			this->языкToolStripMenuItem->Text = L"Язык";
 			// 
 			// англToolStripMenuItem
@@ -274,6 +283,13 @@ namespace kursov {
 			this->русскийToolStripMenuItem->Size = System::Drawing::Size(181, 26);
 			this->русскийToolStripMenuItem->Text = L"Русский";
 			this->русскийToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::русскийToolStripMenuItem_Click);
+			// 
+			// справкаToolStripMenuItem
+			// 
+			this->справкаToolStripMenuItem->Name = L"справкаToolStripMenuItem";
+			this->справкаToolStripMenuItem->Size = System::Drawing::Size(224, 26);
+			this->справкаToolStripMenuItem->Text = L"Справка";
+			this->справкаToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::справкаToolStripMenuItem_Click);
 			// 
 			// button1
 			// 
@@ -338,7 +354,6 @@ namespace kursov {
 			this->label4->Size = System::Drawing::Size(136, 16);
 			this->label4->TabIndex = 24;
 			this->label4->Text = L"Введите вершину 2:";
-			//this->label4->Click += gcnew System::EventHandler(this, &MainWindow::label4_Click);
 			// 
 			// label5
 			// 
@@ -432,6 +447,13 @@ namespace kursov {
 			this->textBox6->Size = System::Drawing::Size(363, 22);
 			this->textBox6->TabIndex = 33;
 			// 
+			// выходToolStripMenuItem
+			// 
+			this->выходToolStripMenuItem->Name = L"выходToolStripMenuItem";
+			this->выходToolStripMenuItem->Size = System::Drawing::Size(67, 24);
+			this->выходToolStripMenuItem->Text = L"Выход";
+			this->выходToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::выходToolStripMenuItem_Click);
+			// 
 			// MainWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
@@ -509,34 +531,42 @@ namespace kursov {
 				}
 			}
 		}
-
-
 		void dijkstra(int** a, int SIZE, int begin_index, int end_index)
 		{
+			// Очистить текстовые поля перед запуском алгоритма
 			this->textBox4->Clear();
 			this->textBox5->Clear();
 			this->textBox6->Clear();
-			const float speed = 1.5;
-			long long* d = new long long[SIZE];
-			long long* v = new long long[SIZE];
+
+			const float speed = 1.5;  // Скорость движения (км/ч)
+
+			long long* d = new long long[SIZE];  // Массив для хранения минимальных расстояний
+			long long* v = new long long[SIZE];  // Массив для отметки посещенных узлов
 			long long temp, minindex, min;
 
+			// Инициализация массивов
 			for (int i = 0; i < SIZE; i++) {
-				d[i] = 9223372036854775807;
-				v[i] = 1;
+				d[i] = 9223372036854775807;  // Задать начальное расстояние как максимальное
+				v[i] = 1;  // Отметить все узлы как непосещенные
 			}
-			d[begin_index] = 0;
+
+			d[begin_index] = 0;  // Начальное расстояние до начального узла равно 0
 
 			do {
 				minindex = 9223372036854775807;
 				min = 9223372036854775807;
+
+				// Найти узел с минимальным расстоянием из непосещенных узлов
 				for (int i = 0; i < SIZE; i++) {
 					if ((v[i] == 1) && (d[i] < min)) {
 						min = d[i];
 						minindex = i;
 					}
 				}
+
+				// Если найденный узел не равен максимальному значению
 				if (minindex != 9223372036854775807) {
+					// Обновить расстояния до соседних узлов через текущий узел
 					for (int i = 0; i < SIZE; i++) {
 						if (a[minindex][i] > 0) {
 							temp = min + a[minindex][i];
@@ -545,21 +575,24 @@ namespace kursov {
 							}
 						}
 					}
-					v[minindex] = 0;
+					v[minindex] = 0;  // Пометить узел как посещенный
 				}
 			} while (minindex < 9223372036854775807);
 
-			long long* ver = new long long[SIZE];
-			ver[0] = end_index;
+			long long* ver = new long long[SIZE];  // Массив для хранения пути
+			ver[0] = end_index;  // Начать с конечного узла
 			int k = 1;
-			int weight = d[end_index];
-			this->textBox6->Text = Convert::ToString(weight) + " m.    ( " + Convert::ToString(weight/1000.0) + " км. )";
+			int weight = d[end_index];  // Получить общее расстояние пути
+			this->textBox6->Text = Convert::ToString(weight) + " m.    ( " + Convert::ToString(weight / 1000.0) + " км. )";
+
+			// Рассчитать время в секундах и преобразовать в формат часы:минуты:секунды
 			int timeInSeconds = static_cast<int>(weight / speed);
 			int hours = timeInSeconds / 3600;
 			int minutes = (timeInSeconds % 3600) / 60;
 			int seconds = timeInSeconds % 60;
 			this->textBox5->Text = hours.ToString() + " час : " + minutes.ToString() + " мин : " + seconds.ToString() + " с";
 
+			// Восстановление пути от конечного узла до начального
 			while (end_index != begin_index) {
 				for (int i = 0; i < SIZE; i++) {
 					if (a[i][end_index] != 0) {
@@ -574,19 +607,19 @@ namespace kursov {
 				}
 			}
 
+			// Вывод пути в обратном порядке
 			for (int i = k - 1; i >= 0; i--) {
 				this->textBox4->Text += Convert::ToString(" " + (ver[i] + 1));
 			}
+
+			// Освобождение выделенной памяти
 			delete[] d;
 			delete[] v;
 			delete[] ver;
 		}
 
-
-
 #pragma endregion
 	String^ filename = "file_with_Coordinates.txt";
-	
 	private: System::Void бирюзовыйToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		this->BackColor = System::Drawing::Color::Turquoise; //для берюзового цвета
@@ -629,6 +662,8 @@ namespace kursov {
 		this->англToolStripMenuItem->Text = "Английский";
 		this->белорсукийToolStripMenuItem->Text = "Белорсукий";
 		this->русскийToolStripMenuItem->Text = "Русский";
+		this->справкаToolStripMenuItem->Text = "Справка";
+		this->выходToolStripMenuItem->Text = "Выход";
 	}
 
 	private: System::Void англToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
@@ -657,6 +692,8 @@ namespace kursov {
 		this->англToolStripMenuItem->Text = "English";
 		this->белорсукийToolStripMenuItem->Text = "Belarusian";
 		this->русскийToolStripMenuItem->Text = "Russian";
+		this->справкаToolStripMenuItem->Text = "help";
+		this->выходToolStripMenuItem->Text = "Exit";
 
 	}
 
@@ -686,6 +723,8 @@ namespace kursov {
 		this->англToolStripMenuItem->Text = "Англійская";
 		this->белорсукийToolStripMenuItem->Text = "Беларуская";
 		this->русскийToolStripMenuItem->Text = "Руская";
+		this->справкаToolStripMenuItem->Text = "інструкцыя";
+		this->выходToolStripMenuItem->Text = "Выхад";
 
 	}
 
@@ -694,10 +733,11 @@ namespace kursov {
 		try
 		{
 			int size_array;
-			
 
+			// Проверка, является ли текстовое поле пустым
 			if (this->textBox1->Text == "")
 			{
+				// Чтение размера массива из файла
 				StreamReader^ reader1 = gcnew StreamReader(filename);
 				String^ line;
 				if ((line = reader1->ReadLine()) != nullptr)
@@ -710,7 +750,8 @@ namespace kursov {
 			}
 			else
 			{
-				try 
+				// Чтение размера массива из текстового поля
+				try
 				{
 					size_array = Convert::ToInt32(this->textBox1->Text);
 					if (size_array <= 1)
@@ -722,7 +763,6 @@ namespace kursov {
 				catch (...)
 				{
 				}
-				
 			}
 
 			bool sizeChanged = false;
@@ -732,6 +772,7 @@ namespace kursov {
 			bool fileExists = File::Exists(filename);
 			if (fileExists)
 			{
+				// Чтение данных из файла
 				StreamReader^ reader = gcnew StreamReader(filename);
 				String^ line;
 				if ((line = reader->ReadLine()) != nullptr)
@@ -747,13 +788,14 @@ namespace kursov {
 				reader->Close();
 			}
 
-			// Создание нового массива
+			// Создание нового массива для работы
 			int** dynamicArray_for_work = new int* [size_array];
 			for (int i = 0; i < size_array; i++)
 			{
 				dynamicArray_for_work[i] = new int[size_array];
 			}
 
+			// Создание нового массива для изменений
 			int** dynamicArray_for_change = new int* [size_array];
 			for (int i = 0; i < size_array; i++)
 			{
@@ -762,7 +804,7 @@ namespace kursov {
 
 			if (fileExists)
 			{
-				// Чтение данных из файла
+				// Чтение данных из файла и заполнение массивов
 				StreamReader^ reader = gcnew StreamReader(filename);
 				String^ line;
 				int row = 0;
@@ -770,7 +812,7 @@ namespace kursov {
 				{
 					array<String^>^ tokens = line->Split(' ');
 
-					for (int col = 0; col < tokens->Length - 1; col++)  // Изменено условие цикла
+					for (int col = 0; col < tokens->Length - 1; col++)
 					{
 						int value;
 						String^ token = tokens[col];
@@ -790,7 +832,6 @@ namespace kursov {
 						}
 					}
 					row++;
-					//MessageBox::Show(Convert::ToString(tokens[row]));
 					if (row == size_array)
 					{
 						break;
@@ -800,8 +841,11 @@ namespace kursov {
 			}
 			else
 			{
-				//if file don't live
+				// Обработка случая отсутствия файла
+				// ...
 			}
+
+			// Обработка изменений размера массива
 			if (sizeChanged)
 			{
 				if (oldSizeArray > size_array)
@@ -832,12 +876,13 @@ namespace kursov {
 			String^ graphFromTo = this->textBox1_1->Text;
 			String^ graphSourceTarget = this->textBox2_1->Text;
 			String^ distance = this->textBox_distance->Text;
-			
+
+			// Проверка ввода
 			if (Convert::ToInt32(graphFromTo) <= 0 || Convert::ToInt32(graphSourceTarget) <= 0)
 			{
 				if (language_now == 0)
 				{
-					MessageBox::Show("Ошибка: Ввод графа осуществляеться с еденицы(1)");///////////////
+					MessageBox::Show("Ошибка: Ввод графа осуществляется с единицы (1)");
 				}
 				else if (language_now == 1)
 				{
@@ -853,7 +898,7 @@ namespace kursov {
 			{
 				if (language_now == 0)
 				{
-					MessageBox::Show("Ошибка: Начало или конец графа превышает значение его размерности");///////////////
+					MessageBox::Show("Ошибка: Начало или конец графа превышает значение его размерности");
 				}
 				else if (language_now == 1)
 				{
@@ -885,7 +930,7 @@ namespace kursov {
 			{
 				if (language_now == 0)
 				{
-					MessageBox::Show("Расстояние между домами не может быть равно 0 или быть отрецательным");
+					MessageBox::Show("Расстояние между домами не может быть равно 0 или быть отрицательным");
 				}
 				else if (language_now == 1)
 				{
@@ -897,6 +942,8 @@ namespace kursov {
 				}
 				return;
 			}
+
+			// Обновление значений в массиве
 			dynamicArray_for_work[Convert::ToInt32(graphFromTo) - 1][Convert::ToInt32(graphSourceTarget) - 1] = Convert::ToInt32(distance);
 			dynamicArray_for_work[Convert::ToInt32(graphSourceTarget) - 1][Convert::ToInt32(graphFromTo) - 1] = Convert::ToInt32(distance);
 
@@ -918,10 +965,14 @@ namespace kursov {
 				sw->WriteLine();
 			}
 			sw->Close();
-			Panel^ graphPanel = this->panel1; // Замените "panel1" на имя вашей панели
+
+			// Отрисовка графа на панели
+			Panel^ graphPanel = this->panel1;
 			Graphics^ g = graphPanel->CreateGraphics();
 			g->Clear(Color::White);  // Очистка области рисования перед отрисовкой
 			DrawGraph(g, dynamicArray_for_work, size_array);
+
+			// Освобождение памяти
 			for (int i = 0; i < size_array; i++)
 			{
 				delete[] dynamicArray_for_work[i];
@@ -951,11 +1002,11 @@ namespace kursov {
 			}
 		}
 	}
-
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		try
 		{
+			// Чтение размерности графа из файла
 			StreamReader^ reader1 = gcnew StreamReader(filename);
 			String^ line;
 			int size_array;
@@ -967,15 +1018,17 @@ namespace kursov {
 			}
 			reader1->Close();
 
+			// Получение начальной и конечной точек из текстовых полей
 			int begin_index, end_index;
 			begin_index = Convert::ToInt32(this->textBox2->Text);
 			end_index = Convert::ToInt32(this->textBox3->Text);
 
+			// Проверка наличия точек в графе
 			if (begin_index == end_index)
 			{
 				if (language_now == 0)
 				{
-					MessageBox::Show("Вы уже находитесь в этой точке");///////////////
+					MessageBox::Show("Вы уже находитесь в этой точке");
 				}
 				else if (language_now == 1)
 				{
@@ -990,11 +1043,13 @@ namespace kursov {
 				this->textBox6->Clear();
 				return;
 			}
+
+			// Проверка ввода начальной и конечной точек
 			if (begin_index <= 0 || end_index <= 0)
 			{
 				if (language_now == 0)
 				{
-					MessageBox::Show("Ошибка: Начало или конец графа не может быть равен 0 или отрецательному числу");///////////////
+					MessageBox::Show("Ошибка: Начало или конец графа не может быть равен 0 или отрицательному числу");
 				}
 				else if (language_now == 1)
 				{
@@ -1009,11 +1064,13 @@ namespace kursov {
 				this->textBox6->Clear();
 				return;
 			}
+
+			// Проверка наличия начальной и конечной точек в графе
 			if (begin_index > size_array || end_index > size_array)
 			{
 				if (language_now == 0)
 				{
-					MessageBox::Show("Ошибка: Начало или конец графа превышает значение его размерности");///////////////
+					MessageBox::Show("Ошибка: Начало или конец графа превышает значение его размерности");
 				}
 				else if (language_now == 1)
 				{
@@ -1029,12 +1086,14 @@ namespace kursov {
 				return;
 			}
 
+			// Создание двумерного массива для хранения графа
 			int** dynamicArray = new int* [size_array];
 			for (int i = 0; i < size_array; i++)
 			{
 				dynamicArray[i] = new int[size_array];
 			}
 
+			// Чтение графа из файла и заполнение массива
 			StreamReader^ reader2 = gcnew StreamReader(filename);
 			int row = 0;
 			while ((line = reader2->ReadLine()) != nullptr)
@@ -1066,8 +1125,10 @@ namespace kursov {
 			}
 			reader2->Close();
 
+			// Выполнение алгоритма Дейкстры
 			dijkstra(dynamicArray, size_array, begin_index - 1, end_index - 1);
 
+			// Освобождение памяти, выделенной для массива
 			for (int i = 0; i < size_array; i++)
 			{
 				delete[] dynamicArray[i];
@@ -1076,15 +1137,17 @@ namespace kursov {
 		}
 		catch (...)
 		{
-
+			// Обработка ошибок
 		}
 	}
-		
+
 	private: System::Void panel1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e)
 	{
 		int size_array = 0;
 		bool sizeChanged = false;
 		int oldSizeArray = 0;
+
+		// Чтение размерности графа из файла
 		StreamReader^ reader = gcnew StreamReader(filename);
 		String^ line;
 		if ((line = reader->ReadLine()) != nullptr)
@@ -1095,25 +1158,19 @@ namespace kursov {
 			if (size_array != oldSizeArray)
 			{
 				sizeChanged = true;
-				size_array = oldSizeArray;  // Добавлено присвоение значения переменной size_array
+				size_array = oldSizeArray;  // Присваивание значения переменной size_array
 			}
 		}
 		reader->Close();
 
-		// Создание нового массива
+		// Создание нового массива для работы
 		int** dynamicArray_for_work = new int* [size_array];
 		for (int i = 0; i < size_array; i++)
 		{
 			dynamicArray_for_work[i] = new int[size_array];
 		}
 
-		int** dynamicArray_for_change = new int* [size_array];
-		for (int i = 0; i < size_array; i++)
-		{
-			dynamicArray_for_change[i] = new int[size_array];
-		}
-
-		// Чтение данных из файла
+		// Чтение данных из файла и заполнение массива
 		reader = gcnew StreamReader(filename);  // Переиспользуем переменную reader
 		int row = 0;
 		while ((line = reader->ReadLine()) != nullptr)
@@ -1130,13 +1187,11 @@ namespace kursov {
 					if (row < size_array && col < size_array)
 					{
 						dynamicArray_for_work[row][col] = value;
-						dynamicArray_for_change[row][col] = value;
 					}
 				}
 				else
 				{
 					dynamicArray_for_work[row][col] = 0;
-					dynamicArray_for_change[row][col] = 0;
 				}
 			}
 			row++;
@@ -1147,60 +1202,41 @@ namespace kursov {
 		}
 		reader->Close();
 
-		Graphics^ g = panel1->CreateGraphics();  // Получите объект Graphics для панели
+		// Получение объекта Graphics для панели
+		Graphics^ g = panel1->CreateGraphics();
 
-		// Определите размер панели
-		int panelWidth = panel1->Width;
-		int panelHeight = panel1->Height;
+		// Вызов функции отрисовки графа
+		DrawGraph(g, dynamicArray_for_work, size_array);
 
-		// Определите параметры отображения графа, такие как размер узлов и цвета
-		int nodeSize = 30;
-		Color nodeColor = Color::Blue;
-		Color edgeColor = Color::Black;
-		Pen^ pen = gcnew Pen(edgeColor);
-		SolidBrush^ brush = gcnew SolidBrush(nodeColor);
-
-		// Вычислите расстояние между узлами, учитывая размер панели
-		int distance = panelWidth / (size_array + 1);
-
-		// Отобразите узлы графа с учетом прокрутки
-		for (int i = 0; i < size_array; i++)
-		{
-			int x = (i + 1) * distance;
-			int y = panelHeight / 2;
-			g->FillEllipse(brush, x - nodeSize / 2, y - nodeSize / 2, nodeSize, nodeSize);
-			g->DrawString((i + 1).ToString(), gcnew System::Drawing::Font("Arial", 12), Brushes::Black, x - 10, y - 10);
-		}
-
-		// Отобразите связи между узлами с учетом прокрутки
-		for (int i = 0; i < size_array; i++)
-		{
-			for (int j = 0; j < size_array; j++)
-			{
-				if (dynamicArray_for_work[i][j] > 0)
-				{
-					int x1 = (i + 1) * distance;
-					int y1 = panelHeight / 2;
-					int x2 = (j + 1) * distance;
-					int y2 = panelHeight / 2 + 100;
-					g->DrawLine(pen, x1, y1, x2, y2);
-					g->DrawString((i + 1).ToString(), gcnew System::Drawing::Font("Arial", 12), Brushes::Black, x1 - 10, y1 - 10);
-					g->DrawString((j + 1).ToString(), gcnew System::Drawing::Font("Arial", 12), Brushes::Black, x2 - 10, y2 - 10);
-				}
-			}
-		}
-
-		// Добавление панели с прокруткой
-		panel1->AutoScroll = true;
-
-		// Освобождение памяти
+		// Освобождение памяти, выделенной для массива
 		for (int i = 0; i < size_array; i++)
 		{
 			delete[] dynamicArray_for_work[i];
-			delete[] dynamicArray_for_change[i];
 		}
 		delete[] dynamicArray_for_work;
-		delete[] dynamicArray_for_change;
+	}
+
+	private: System::Void справкаToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		// Открытие файла справки
+		if (language_now == 0)
+		{
+			system(("start " + std::string("СправкаRU.chm")).c_str());
+		}
+		else if (language_now == 1)
+		{
+			system(("start " + std::string("СправкаEN.chm")).c_str());
+		}
+		else if (language_now == 2)
+		{
+			system(("start " + std::string("СправкаBL.chm")).c_str());
+		}
+		
+	}
+
+	private: System::Void выходToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) 
+	{
+		exit(0);
 	}
 };
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "MainWindow.h"
 
 namespace kursov {
 
@@ -251,7 +252,6 @@ namespace kursov {
 
 		}
 #pragma endregion
-	//String^ filename ="C:\\program_lenguage\\file_with_account.txt";
 	String^ filename = "file_with_account.txt";
 	bool flag_for_textbox = false;
 	private: System::Void Textbox1_clear(System::Object^ sender, System::EventArgs^ e)
@@ -323,27 +323,118 @@ namespace kursov {
 
 		try
 		{
+			// Проверяем, существует ли файл
 			if (!File::Exists(filename))
 			{
+				// Если файл не существует, создаем его
 				File::Create(filename);
 			}
 
+			if (String::IsNullOrEmpty(login_input) || String::IsNullOrEmpty(password_input))
+			{
+				// Выводим сообщение об ошибке в зависимости от текущего языка
+				if (language_now == 0)
+				{
+					this->label1->Text = "Логин и пароль не должны быть пустыми";
+				}
+				else if (language_now == 1)
+				{
+					this->label1->Text = "Login and password should not be empty";
+				}
+				else if (language_now == 2)
+				{
+					this->label1->Text = "Лагін і пароль не павінны быць пустымі";
+				}
+
+				return; // Выходим из метода
+			}
+
+			// Проверяем длину вводимого логина и пароля
+			if (login_input->Length < 3 || login_input->Length > 15)
+			{
+				// Выводим сообщение об ошибке в зависимости от текущего языка
+				if (language_now == 0)
+				{
+					this->label1->Text = "Длина логина должна быть от 3 до 15 символов";
+				}
+				else if (language_now == 1)
+				{
+					this->label1->Text = "The length of the login should be between 3 and 15 characters";
+				}
+				else if (language_now == 2)
+				{
+					this->label1->Text = "Даўжыня лагіна павінна быць ад 3 да 15 сімвалаў";
+				}
+
+				return; // Выходим из метода
+			}
+
+			if (password_input->Length < 3 || password_input->Length > 15)
+			{
+				// Выводим сообщение об ошибке в зависимости от текущего языка
+				if (language_now == 0)
+				{
+					this->label1->Text = "Длина пароля должна быть от 3 до 15 символов";
+				}
+				else if (language_now == 1)
+				{
+					this->label1->Text = "The length of the password should be between 3 and 15 characters";
+				}
+				else if (language_now == 2)
+				{
+					this->label1->Text = "Даўжыня пароля павінна быць ад 3 да 15 сімвалаў";
+				}
+
+				return; // Выходим из метода
+			}
+
+			// Проверяем наличие знака ":" в логине или пароле
+			if (login_input->Contains(":") || password_input->Contains(":"))
+			{
+				// Выводим сообщение об ошибке в зависимости от текущего языка
+				if (language_now == 0)
+				{
+					this->label1->Text = "Логин и пароль не должны содержать символ ':'";
+				}
+				else if (language_now == 1)
+				{
+					this->label1->Text = "Login and password should not contain the ':' character";
+				}
+				else if (language_now == 2)
+				{
+					this->label1->Text = "Лагін і пароль не павінны змяшчаць сімвал ':'";
+				}
+
+				return; // Выходим из метода
+			}
+
+			// Бесконечный цикл
 			while (true)
 			{
+				// Создаем объект для чтения файла
 				StreamReader^ reader = gcnew StreamReader(filename);
+
+				// Читаем файл построчно
 				while ((line = reader->ReadLine()) != nullptr)
 				{
+					// Разделяем строку на логин и пароль по символу ":"
 					array<String^>^ tokens = line->Split(':');
+
+					// Проверяем, что строка содержит логин и пароль
 					if (tokens->Length != 2)
 					{
+						// Пропускаем некорректные строки
 						continue;
 					}
 
+					// Извлекаем логин и пароль из массива
 					login = tokens[0];
 					password = tokens[1];
 
-					if (login_input == login && password_input == password)
+					// Проверяем, совпадают ли введенные логин и пароль с данными из файла
+					if (login_input == login)
 					{
+						// Если логин и пароль совпадают, устанавливаем флаг в true и выходим из цикла
 						flag = true;
 						break;
 					}
@@ -353,12 +444,23 @@ namespace kursov {
 						continue;
 					}
 				}
+
+				// Закрываем объект для чтения файла
 				reader->Close();
+
+				// Проверяем значение флага
 				if (flag == false)
 				{
-					StreamWriter^ sw = gcnew StreamWriter(filename, true);//дозапись
+					// Если флаг равен false, создаем объект для записи в файл
+					StreamWriter^ sw = gcnew StreamWriter(filename, true); // дозапись
+
+					// Записываем логин и пароль в файл
 					sw->Write(login_input + ":" + password_input + "\n");
-					sw->Close();///
+
+					// Закрываем объект для записи
+					sw->Close();
+
+					// Выводим сообщение об успешном создании аккаунта в зависимости от текущего языка
 					if (language_now == 0)
 					{
 						this->label1->Text = "Аккаунт создан";
@@ -371,11 +473,15 @@ namespace kursov {
 					{
 						this->label1->Text = "Рахунак створаны";
 					}
-					
+					MainWindow^ f = gcnew MainWindow(language_now);
+					f->Show();
+					this->Hide();
 					break;
+
 				}
 				else
 				{
+					// Если флаг равен true, выводим сообщение о существующем аккаунте в зависимости от текущего языка
 					if (language_now == 0)
 					{
 						this->label1->Text = "Такой аккаунт уже существует, придумайте другой";
@@ -388,12 +494,15 @@ namespace kursov {
 					{
 						this->label1->Text = "Такі акаўнт ужо існуе, выдумайце іншы";
 					}
+
 					break;
 				}
 			}
 		}
 		catch (...)
 		{
+			// Обработка ошибок при записи данных или их проверке
+
 			if (language_now == 0)
 			{
 				Console::WriteLine("Ошибка при записи данных или при их проверке");
@@ -407,8 +516,9 @@ namespace kursov {
 				Console::WriteLine("Памылка пры запісе або праверцы дадзеных");
 			}
 		}
-
 	}
+
+
 	private: System::Void бирюзовыйToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		this->BackColor = System::Drawing::Color::Turquoise; //для берюзового цвета
@@ -485,3 +595,4 @@ namespace kursov {
 
 };
 }
+
